@@ -28,7 +28,7 @@ $ pig -x local -f pregunta.pig
 
          >>> Escriba su respuesta a partir de este punto <<<
 */
-data = load 'data.tsv' using PigStorage(',')
+data = load 'data.csv' using PigStorage(',')
     as (
             driverId:int,
             truckId:int,
@@ -47,4 +47,4 @@ data = load 'data.tsv' using PigStorage(',')
 data_subset = limit data 10;
 specific_columns = foreach data_subset generate driverId, truckId, eventTime;
 
-store specific_columns into 'output/' using PigStorage(',');
+store specific_columns into 'output' using PigStorage(',');
