@@ -28,3 +28,23 @@ $ pig -x local -f pregunta.pig
 
          >>> Escriba su respuesta a partir de este punto <<<
 */
+data = load 'drivers/truck_event_text_partition.csv' using PigStorage(',')
+    as (
+            driverId:int,
+            truckId:int,
+            eventTime:chararray,
+            eventType:chararray,
+            longitude:double,
+            latitude:double,
+            eventKey:chararray,
+            correlationId:long,
+            driverName:chararray,
+            routeId:long,
+            routeName:chararray,
+            eventDate:chararray
+    );
+
+data_subset = limit data 10;
+specific_columns = foreach data_subset generate driverId, truckId, eventTime;
+
+store specific_columns into 'output/' using PigStorage(',');
