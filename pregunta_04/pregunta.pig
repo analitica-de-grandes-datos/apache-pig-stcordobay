@@ -28,7 +28,7 @@ $ pig -x local -f pregunta.pig
 
          >>> Escriba su respuesta a partir de este punto <<<
 */
-data = load 'drivers/truck_event_text_partition.csv' using PigStorage(',')
+data = load 'data.tsv' using PigStorage(',')
     as (
             driverId:int,
             truckId:int,
