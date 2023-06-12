@@ -20,3 +20,11 @@ $ pig -x local -f pregunta.pig
 
 */
 
+
+data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor=chararray,number=int);
+
+
+filter_data = filter data by (favcolor == 'blue' and name matches 'Z.*');
+output_data = foreach filter_data generate name, favcolor;
+
+store output_data into 'output/' using PigStorage(',');

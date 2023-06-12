@@ -26,4 +26,9 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor=chararray,number=int);
 
+filter_secname = filter data by (SUBSTRING(secondname, 0, 1) >= 'D' and SUBSTRING(secondname, 0, 1) <= 'K');
+data_output = foreach filter_secname generate secondname;
+
+store result into 'output/' using PigStorage(',');

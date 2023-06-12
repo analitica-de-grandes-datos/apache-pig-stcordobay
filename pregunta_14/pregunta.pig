@@ -20,3 +20,11 @@ $ pig -x local -f pregunta.pig
 
 */
 
+data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor=chararray,number=int);
+
+selectcolor = filter data by not(favcolor matches 'b.*');
+output_color = foreach selectcolor generate favcolor;
+
+
+
+store output_color into 'output/' using PigStorage(',');
