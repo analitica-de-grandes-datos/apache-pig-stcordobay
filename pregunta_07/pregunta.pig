@@ -14,7 +14,7 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-data = load 'data.tsv' using PigStorage('\t') as (letter: chararray, multiple_letter: bag{t: tuple(x: chararray)}, chain: bag{t: tuple(value: chararray)});
+data = load 'data.tsv' using PigStorage('\t') as (letter: chararray, multiple_letter: bag{t: tuple(x: chararray)}, chain: map[]);
 
 counted_data = foreach data generate letter, SIZE(multiple_letter) as multiletter_count, SIZE(chain) as chain_count;
 order_counted = order counted_data by letter, multiletter_count, chain_count;

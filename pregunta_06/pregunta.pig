@@ -21,6 +21,6 @@ flattened_data = foreach chain_data generate flatten($0);
 divided_data = foreach flattened_data generate flatten(TOKENIZE($0, '#')) as (letters: chararray, number: int);
 grouped_data = group divided_data by letters;
 
-count_data = foreach grouped_data generate group  COUNT(grouped_data);
+count_data = foreach grouped_data generate group,  COUNT(grouped_data);
 
 store count_data into 'output/' using PigStorage(',');
