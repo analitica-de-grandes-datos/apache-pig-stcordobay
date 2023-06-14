@@ -36,4 +36,3 @@ data = load 'data.csv' using PigStorage(',') as (id:int, name:chararray, secondn
 data_output = foreach data generate CONCAT(name, '@', secondname);
 
 store data_output into 'output' using PigStorage(',');
-

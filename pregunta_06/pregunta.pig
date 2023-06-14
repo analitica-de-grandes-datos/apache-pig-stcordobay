@@ -17,7 +17,7 @@ data = load 'data.tsv' using PigStorage('\t') as (letter: chararray, multiple_le
 
 count_data = foreach data generate flatten(chain) as key;
 count_data = group count_data by key;
-count_data = foreach count_data generate group, COUNT(result);
+count_data = foreach count_data generate group, COUNT(count_data);
 
 store count_data into 'output' using PigStorage(',');
 
