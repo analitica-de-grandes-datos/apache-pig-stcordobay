@@ -32,9 +32,9 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
-data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor:chararray,number:int);
+data = load 'data.csv' using PigStorage(',') as (id:int, name:chararray, secondname:chararray, date:chararray, favcolor:chararray, number:int);
 
 data_output = foreach data generate secondname, upper(secondname), lower(secondname);
-order_data = order data_output by secondname;
+data_output = order data_output by secondname;
 
-store order_data into 'output/' using PigStorage(',');
+store data_output into 'output/' using PigStorage(',');
