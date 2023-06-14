@@ -22,7 +22,7 @@ $ pig -x local -f pregunta.pig
 */
 data = load 'data.csv' using PigStorage(',') as (id:int, name:chararray, secondname:chararray, date:chararray, favcolor:chararray, number:int);
 
-data_length = foreach data generate secondname, SIZE(secondname);
+data_length = foreach data generate secondname, SIZE(secondname) as data_length;
 data_output = order data_length by data_length desc, secondname;
 
 store data_output into 'output/' using PigStorage(',');
