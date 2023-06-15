@@ -57,9 +57,9 @@ converted_date = FOREACH separate_data GENERATE year, (CASE month
                                                   END) AS month, month AS month_number, day;
 
 final_date = foreach converted_date generate CONCAT(year, '-', month_number, '-', day) as date, month, month_number, day;
-sorted_date = ORDER final_date BY date;
+--sorted_date = ORDER final_date BY date;
 
-store sorted_date into 'output/' using PigStorage(',');
+store final_date into 'output/' using PigStorage(',');
 
 
 
