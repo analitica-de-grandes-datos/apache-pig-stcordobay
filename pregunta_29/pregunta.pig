@@ -56,10 +56,10 @@ converted_date = FOREACH separate_data GENERATE year, (CASE month
                                                     ELSE 'Invalid'
                                                   END) AS month_name, month AS month_number, REGEX_EXTRACT(SUBSTRING(month, 1, 2), '0*(\\d+)?', 1) as m;
 
-final_date = foreach converted_date generate CONCAT(year, '-', month_number, '-', day) as date, month_name, month_number, m;
+--final_date = foreach converted_date generate CONCAT(year, '-', month_number, '-', day) as date, month_name, month_number, m;
 --sorted_date = ORDER final_date BY date;
 
-store final_date into 'output/' using PigStorage(',');
+store converted_date into 'output/' using PigStorage(',');
 
 
 
