@@ -34,13 +34,13 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
-data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor:chararray,number:int);
+data = load 'data.csv' using PigStorage(',') as (id:int, name:chararray, secondname:chararray, date:chararray, favcolor:chararray, number:int);
 
 
 date_data = foreach data generate date;
 separate_data = foreach date_data generate flatten(STRSPLIT(date, '-', 3)) as (year: chararray, month: chararray, day: chararray);
 
-converted_date = FOREACH split_data GENERATE year, (CASE month
+converted_date = FOREACH separate_data GENERATE year, (CASE month
                                                     WHEN '01' THEN 'ene'
                                                     WHEN '02' THEN 'feb'
                                                     WHEN '03' THEN 'mar'
