@@ -19,4 +19,8 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor:chararray,number:int);
 
+output_data = foreach data generate REGEX_EXTRACT(date, '....-(..)-..', 1);
+
+store output_data into 'output/' using PigStorage(',');

@@ -12,3 +12,11 @@ $ pig -x local -f pregunta.pig
 
         >>> Escriba su respuesta a partir de este punto <<<
 */
+data = load 'data.tsv' using PigStorage('\t') as (letter: chararray, multiple_letter: bag{t: tuple(x: chararray)}, chain: chararray);
+
+
+separate_data = foreach data generate flatten(multiple_letter) as x;
+grouped = group separate_data by x;
+count_letter = foreach grouped generate group as x, COUNT(separate_data) as count;
+
+store count_letter into 'output/' using PigStorage(',');

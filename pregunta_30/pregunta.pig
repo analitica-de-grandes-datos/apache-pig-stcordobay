@@ -34,3 +34,57 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondname:chararray,date:chararray,favcolor:chararray,number:int);
+
+
+date_data = foreach data generate date, SUBSTRING(date, 8, 10) as dd,
+    REGEX_EXTRACT(SUBSTRING(date, 8, 10), '0*(\\d+)?', 1) as d,
+
+    REPLACE(
+        REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                LOWER (ToString( ToDate(date, 'yyyy-MM-dd'), 'EEE' )),
+                                'mon',
+                                'lun'),
+                            'tue',
+                            'mar'),
+                        'wed',
+                        'mie'),
+                    'thu',
+                    'jue'),
+                'fri',
+                'vie'),
+            'sat',
+            'sab'),
+        'sun',
+        'dom'),
+
+        REPLACE(
+        REPLACE(
+            REPLACE(
+                REPLACE(
+                    REPLACE(
+                        REPLACE(
+                            REPLACE(
+                                LOWER (ToString( ToDate(date, 'yyyy-MM-dd'), 'EEE' )),
+                                'mon',
+                                'lunes'),
+                            'tue',
+                            'martes'),
+                        'wed',
+                        'miercoles'),
+                    'thu',
+                    'jueves'),
+                'fri',
+                'viernes'),
+            'sat',
+            'sabado'),
+        'sun',
+        'domingo');
+        
+        
+store date_data into 'output/' using PigStorage(',');

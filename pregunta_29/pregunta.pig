@@ -34,3 +34,36 @@ $ pig -x local -f pregunta.pig
         >>> Escriba su respuesta a partir de este punto <<<
 */
 
+data = load 'data.csv' using PigStorage(',') as (id:int, name:chararray, secondname:chararray, date:chararray, favcolor:chararray, number:int);
+
+
+date_data = foreach data generate date;
+separate_data = foreach date_data generate flatten(STRSPLIT(date, '-', 3)) as (year: chararray, month: chararray, day: chararray);
+
+converted_date = FOREACH separate_data GENERATE CONCAT(year, '-', month, '-', day), (CASE month
+                                                    WHEN '01' THEN 'ene'
+                                                    WHEN '02' THEN 'feb'
+                                                    WHEN '03' THEN 'mar'
+                                                    WHEN '04' THEN 'abr'
+                                                    WHEN '05' THEN 'may'
+                                                    WHEN '06' THEN 'jun'
+                                                    WHEN '07' THEN 'jul'
+                                                    WHEN '08' THEN 'ago'
+                                                    WHEN '09' THEN 'sep'
+                                                    WHEN '10' THEN 'oct'
+                                                    WHEN '11' THEN 'nov'
+                                                    WHEN '12' THEN 'dic'
+                                                    ELSE 'Invalid'
+                                                  END) AS month_name, month AS month_number, REGEX_EXTRACT(month, '0*(\\d+)?', 1) as m;
+
+--final_date = foreach converted_date generate CONCAT(year, '-', month_number, '-', day) as date, month_name, month_number, m;
+--sorted_date = ORDER final_date BY date;
+
+store converted_date into 'output/' using PigStorage(',');
+
+
+
+
+
+
+
