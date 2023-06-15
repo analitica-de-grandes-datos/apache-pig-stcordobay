@@ -54,9 +54,9 @@ converted_date = FOREACH separate_data GENERATE year, (CASE month
                                                     WHEN '11' THEN 'nov'
                                                     WHEN '12' THEN 'dic'
                                                     ELSE 'Invalid'
-                                                  END) AS month, month AS month_number, day;
+                                                  END) AS month, month AS month_number, REGEX_EXTRACT(SUBSTRING(date, 5, 7), '0*(\\d+)?', 1) as m;
 
-final_date = foreach converted_date generate CONCAT(year, '-', month_number, '-', day) as date, month, month_number, day;
+final_date = foreach converted_date generate CONCAT(year, '-', month_number, '-', day) as date, month, month_number, m;
 --sorted_date = ORDER final_date BY date;
 
 store final_date into 'output/' using PigStorage(',');
