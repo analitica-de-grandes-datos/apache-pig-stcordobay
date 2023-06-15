@@ -38,7 +38,7 @@ data = load 'data.csv' using PigStorage(',') as (id:int,name:chararray,secondnam
 
 
 date_data = foreach data generate date, SUBSTRING(date, 8, 10) as dd,
-    REGEX_EXTRACT(SUBSTRING(birthday, 8, 10), '0*(\\d+)?', 1) as d,
+    REGEX_EXTRACT(SUBSTRING(date, 8, 10), '0*(\\d+)?', 1) as d,
 
     REPLACE(
         REPLACE(
@@ -47,7 +47,7 @@ date_data = foreach data generate date, SUBSTRING(date, 8, 10) as dd,
                     REPLACE(
                         REPLACE(
                             REPLACE(
-                                LOWER (ToString( ToDate(birthday, 'yyyy-MM-dd'), 'EEE' )),
+                                LOWER (ToString( ToDate(date, 'yyyy-MM-dd'), 'EEE' )),
                                 'mon',
                                 'lun'),
                             'tue',
@@ -70,7 +70,7 @@ date_data = foreach data generate date, SUBSTRING(date, 8, 10) as dd,
                     REPLACE(
                         REPLACE(
                             REPLACE(
-                                LOWER (ToString( ToDate(birthday, 'yyyy-MM-dd'), 'EEE' )),
+                                LOWER (ToString( ToDate(date, 'yyyy-MM-dd'), 'EEE' )),
                                 'mon',
                                 'lunes'),
                             'tue',

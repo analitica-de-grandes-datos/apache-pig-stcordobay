@@ -40,7 +40,7 @@ data = load 'data.csv' using PigStorage(',') as (id:int, name:chararray, secondn
 date_data = foreach data generate date;
 separate_data = foreach date_data generate flatten(STRSPLIT(date, '-', 3)) as (year: chararray, month: chararray, day: chararray);
 
-converted_date = FOREACH separate_data GENERATE CONCAT(year, '-', month_number, '-', day), (CASE month
+converted_date = FOREACH separate_data GENERATE CONCAT(year, '-', month, '-', day), (CASE month
                                                     WHEN '01' THEN 'ene'
                                                     WHEN '02' THEN 'feb'
                                                     WHEN '03' THEN 'mar'
